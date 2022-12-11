@@ -1,0 +1,85 @@
+{% extends 'core/index.html' %}
+{% block content %}
+<div class="container">
+    <form method="POST" enctype="multipart/form-data">{% csrf_token %}
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3" style="margin-top: 75px">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <label for="auto_geo">указать GEO вручную:</label>
+                            <input id="auto_geo" name="auto_geo" type="checkbox" onclick="autoGeo()">
+                        </div>
+                        <span id="geo" style="display: none;">
+                            <div class="form-group">
+                                <label for="geo_longitude">долгота:</label>
+                                <input id="geo_longitude" class="form-control" maxlength="200" name="geo_longitude" type="text">
+                            </div>
+                            <div class="form-group">
+                                <label for="geo_latitude">ширина:</label>
+                                <input id="geo_latitude" class="form-control" maxlength="200" name="geo_latitude" type="text">
+                            </div>
+                            <div>
+                                <label for="geo_altitude">высота:</label>
+                                <input id="geo_altitude" class="form-control" maxlength="200" name="geo_altitude" type="text">
+                            </div>
+                            <br>
+                        </span>
+                        <div>
+                            <label for=description>описание:</label>
+                            <textarea id="description" class="form-control" name="description" rows="8">
+                            </textarea>
+                        </div>
+                        <p>
+                            <b>выберете фото:</b>
+                            <input type="file" name="image">
+                        <p style="color: red">{{ photo_error }}</p>
+                        </p>
+                        <button type="submit" class="btn btn-default">Сохранить</button>
+                        <a href="/photo_manager/" class="btn btn-default">Не добавлять</a>
+                    </div>
+                </div>
+                <div id="persons"></div>
+            </div>
+        </div>
+    </form>
+
+    <div class="container col-md-4 col-md-offset-4" style="margin-bottom: 20px">
+        <button type="submit" onclick="addNameSurname()" class="btn btn-default">Добавить имя и фамилию человека на фото</button>
+    </div>
+
+</div>
+<script>
+
+    function autoGeo(){
+        if(document.getElementById('auto_geo').checked){
+            document.getElementById('geo').style.display = '';
+        }
+        else{
+            document.getElementById('geo').style.display = 'none';
+        }
+    }
+
+    function addNameSurname(){
+        let div = document.createElement("div")
+        let text = '<div class="panel panel-default">\n' +
+          '    <div class="panel-body">\n' +
+          '        <div class="col-md-6">\n' +
+          '            <div class="form-group">\n' +
+          '                <label>Имя:</label>\n' +
+          '                <input class="form-control" name="name" type="text">\n' +
+          '            </div>\n' +
+          '        </div>\n' +
+          '        <div class="col-md-6">\n' +
+          '             <div class="form-group">\n' +
+          '                <label>Фамилия:</label>\n' +
+          '                <input class="form-control" name="surname" type="text">\n' +
+          '             </div>\n' +
+          '        </div>\n' +
+          '    </div>\n' +
+          '</div>';
+        div.innerHTML = text;
+      document.getElementById('persons').append(div);
+    }
+</script>
+{% endblock %}
